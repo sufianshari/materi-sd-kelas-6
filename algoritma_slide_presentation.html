@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Algoritma</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 90%;
+            max-width: 1000px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .content {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .content ul, .content ol {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        .content li {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd89b 0%, #19547b 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .example-box {
+            background: #f0f4ff;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .robot {
+            font-size: 4em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .quiz-container {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .question {
+            background: #f8f9ff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .options label:hover {
+            background: #e8edff;
+            transform: translateX(5px);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .submit-quiz {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: #f0f4ff;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .score {
+            font-size: 3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide-number">1/9</div>
+            <div class="robot">🤖📚</div>
+            <h1>Belajar Algoritma:<br>Langkah Seru Menyelesaikan Masalah! 🚀</h1>
+            <p class="subtitle">Mengenal urutan langkah dalam kehidupan sehari-hari dan dunia komputer</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-number">2/9</div>
+            <h2>Algoritma Ada di Sekitar Kita! 🌍</h2>
+            <div class="content">
+                <p style="font-size: 1.3em; margin-bottom: 25px;">Pernahkah kalian:</p>
+                <ul>
+                    <li>🍜 Membuat mie instan?</li>
+                    <li>🧱 Merakit mainan LEGO?</li>
+                    <li>🎮 Main game favorit?</li>
+                </ul>
+                <div class="example-box">
+                    <p><strong>Semua itu butuh langkah-langkah yang urut, kan?</strong></p>
+                    <p style="margin-top: 15px;">Tanpa langkah yang urut, mie instan bisa jadi keras atau LEGO-mu tidak berbentuk. <span class="highlight">Itulah algoritma dalam kehidupan nyata!</span></p>
+                </div>
+                <p style="margin-top: 20px;"><strong>Contoh lainnya:</strong> Resep masakan 🍳, cara mencuci tangan 🧼, atau rute jalan ke sekolah 🏫</p>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide-number">3/9</div>
+            <h2>Apa Itu Algoritma? 🤔</h2>
+            <div class="content">
+                <div class="example-box" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%); border-left: 5px solid #fdcb6e;">
+                    <p style="font-size: 1.3em; color: #2d3436;"><strong>Algoritma adalah urutan langkah-langkah yang disusun secara logis (masuk akal) untuk menyelesaikan sebuah tugas atau masalah.</strong></p>
+                </div>
+                <div style="text-align: center; margin: 40px 0; font-size: 3em;">
+                    📋 ➡️ ✅
+                </div>
+                <div class="example-box">
+                    <p style="font-size: 1.2em;"><strong>💡 Analogi Sederhana:</strong></p>
+                    <p style="margin-top: 10px;">Algoritma itu seperti <span class="highlight">"Resep Masakan"</span>. Jika kamu mengikuti resepnya dengan benar, hasilnya pasti enak! 😋</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <div class="slide-number">4/9</div>
+            <h2>Kenapa Kita Butuh Algoritma? 💪</h2>
+            <div class="content">
+                <ol style="font-size: 1.2em;">
+                    <li><strong>🎯 Menyelesaikan Masalah:</strong><br>Membantu kita melakukan tugas berat dengan membaginya jadi langkah-langkah kecil yang mudah.</li>
+                    <li><strong>✅ Mencegah Kesalahan:</strong><br>Agar kita tidak bingung apa yang harus dilakukan selanjutnya.</li>
+                    <li><strong>⚡ Bekerja Lebih Cepat:</strong><br>Kalau sudah tahu langkahnya, semua jadi lebih efisien dan hemat waktu.</li>
+                    <li><strong>💻 Bicara dengan Komputer:</strong><br>Komputer itu pintar tapi harus diperintah dengan langkah yang sangat jelas dan detail.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+            <div class="slide-number">5/9</div>
+            <h2>Ciri-Ciri Algoritma yang Baik ⭐</h2>
+            <div class="content">
+                <p style="font-size: 1.2em; margin-bottom: 25px;">Seperti apa sih algoritma yang bagus?</p>
+                <div class="example-box">
+                    <p><strong>✨ Jelas:</strong> Tidak bikin bingung, instruksinya pasti dan mudah dipahami</p>
+                </div>
+                <div class="example-box">
+                    <p><strong>📝 Urut:</strong> Langkahnya berurutan dari awal sampai akhir, tidak boleh loncat-loncat</p>
+                </div>
+                <div class="example-box">
+                    <p><strong>🏁 Ada Akhirnya:</strong> Langkah-langkahnya harus selesai, tidak berputar-putar selamanya</p>
+                </div>
+                <div class="example-box">
+                    <p><strong>🧠 Logis:</strong> Masuk akal bagi siapa pun yang membacanya</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide">
+            <div class="slide-number">6/9</div>
+            <h2>Contoh Algoritma: Membuat Susu Cokelat 🥛</h2>
+            <div class="content">
+                <ol style="font-size: 1.2em; line-height: 2;">
+                    <li>Ambil gelas dan sendok 🥄</li>
+                    <li>Masukkan 2 sendok bubuk cokelat ke gelas 🍫</li>
+                    <li>Tuangkan air hangat secukupnya 💧</li>
+                    <li>Aduk hingga rata menggunakan sendok 🔄</li>
+                    <li>Susu cokelat siap diminum! ✅</li>
+                </ol>
+                <div class="example-box" style="margin-top: 30px; background: #fff3cd; border-left: 5px solid #ffc107;">
+                    <p style="font-size: 1.1em;"><strong>🤔 Diskusi:</strong></p>
+                    <p style="margin-top: 10px;">Apa yang terjadi jika langkah ke-4 (mengaduk) dilakukan sebelum langkah ke-2 (memasukkan bubuk cokelat)?</p>
+                    <p style="margin-top: 10px; color: #d63031;"><strong>Jawab: Pasti berantakan! Kamu mengaduk apa coba kalau coklatnya belum dimasukkan? 😅</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide">
+            <div class="slide-number">7/9</div>
+            <h2>Algoritma dalam Dunia Digital 💻</h2>
+            <div class="content">
+                <div class="example-box">
+                    <p><strong>🎮 Game:</strong></p>
+                    <p>Karakter game bergerak karena ada algoritma. Contoh: "Jika tekan tombol kanan, maka karakter jalan ke kanan"</p>
+                </div>
+                <div class="example-box">
+                    <p><strong>📺 YouTube:</strong></p>
+                    <p>Algoritma memilihkan video yang mungkin kamu suka berdasarkan riwayat tontonanmu</p>
+                </div>
+                <div class="example-box">
+                    <p><strong>🤖 Robot Pembersih:</strong></p>
+                    <p>Robot pembersih lantai tahu kapan harus berbelok agar tidak menabrak tembok atau furnitur</p>
+                </div>
+                <div class="example-box">
+                    <p><strong>📱 Smartphone:</strong></p>
+                    <p>Alarm pagi, kalkulator, bahkan fitur kamera semuanya menggunakan algoritma!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide">
+            <div class="slide-number">8/9</div>
+            <h2>Kesimpulan & Tantangan 🎯</h2>
+            <div class="content">
+                <div class="example-box" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-left: 5px solid #a8edea;">
+                    <p style="font-size: 1.3em; color: #2d3436;"><strong>✨ Kesimpulan:</strong></p>
+                    <p style="margin-top: 15px; font-size: 1.2em;">Algoritma adalah kunci untuk menjadi pemecah masalah yang hebat! Dengan algoritma, kita bisa menyelesaikan masalah apa pun dengan cara yang teratur dan efisien.</p>
+                </div>
+                <div style="margin-top: 40px; text-align: center; font-size: 3em;">
+                    🏆💡🚀
+                </div>
+                <div class="example-box" style="margin-top: 30px; background: #fff3cd; border-left: 5px solid #ffc107;">
+                    <p style="font-size: 1.2em;"><strong>🎯 Tantangan Kecil:</strong></p>
+                    <p style="margin-top: 15px;">Coba tuliskan algoritma <span class="highlight">"Cara Memakai Seragam Sekolah"</span> di buku tulismu. Pastikan langkahnya urut ya!</p>
+                    <p style="margin-top: 10px; font-style: italic;">Contoh: 1. Ambil seragam dari lemari, 2. Pakai kaos dalam, 3. ...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9 - Kuis -->
+        <div class="slide">
+            <div class="slide-number">9/9</div>
+            <h2>Kuis: Ayo Uji Pemahamanmu! 📝</h2>
+            <div class="quiz-container">
+                <form id="quizForm">
+                    <!-- Pertanyaan 1 -->
+                    <div class="question">
+                        <h3>1. Apa yang dimaksud dengan algoritma?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q1" value="a"> Bahasa pemrograman komputer</label>
+                            <label><input type="radio" name="q1" value="b"> Urutan langkah-langkah logis untuk menyelesaikan masalah</label>
+                            <label><input type="radio" name="q1" value="c"> Aplikasi di smartphone</label>
+                            <label><input type="radio" name="q1" value="d"> Jenis komputer</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 2 -->
+                    <div class="question">
+                        <h3>2. Manakah yang BUKAN ciri-ciri algoritma yang baik?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q2" value="a"> Jelas dan mudah dipahami</label>
+                            <label><input type="radio" name="q2" value="b"> Langkahnya berurutan</label>
+                            <label><input type="radio" name="q2" value="c"> Berputar-putar tanpa akhir</label>
+                            <label><input type="radio" name="q2" value="d"> Logis dan masuk akal</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 3 -->
+                    <div class="question">
+                        <h3>3. Algoritma dalam kehidupan sehari-hari dapat ditemukan pada...</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q3" value="a"> Resep masakan</label>
+                            <label><input type="radio" name="q3" value="b"> Cara mencuci tangan</label>
+                            <label><input type="radio" name="q3" value="c"> Rute ke sekolah</label>
+                            <label><input type="radio" name="q3" value="d"> Semua jawaban benar</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 4 -->
+                    <div class="question">
+                        <h3>4. Dalam membuat susu cokelat, apa yang terjadi jika kita mengaduk sebelum memasukkan bubuk cokelat?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q4" value="a"> Susu cokelat jadi lebih enak</label>
+                            <label><input type="radio" name="q4" value="b"> Tidak ada masalah</label>
+                            <label><input type="radio" name="q4" value="c"> Hasilnya berantakan karena urutan langkah salah</label>
+                            <label><input type="radio" name="q4" value="d"> Susu jadi lebih cepat siap</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 5 -->
+                    <div class="question">
+                        <h3>5. Salah satu fungsi algoritma adalah...</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q5" value="a"> Membuat pekerjaan lebih rumit</label>
+                            <label><input type="radio" name="q5" value="b"> Mencegah kesalahan dan bekerja lebih efisien</label>
+                            <label><input type="radio" name="q5" value="c"> Menambah waktu pengerjaan</label>
+                            <label><input type="radio" name="q5" value="d"> Membuat bingung</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 6 -->
+                    <div class="question">
+                        <h3>6. Algoritma dapat dianalogikan seperti...</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q6" value="a"> Resep masakan</label>
+                            <label><input type="radio" name="q6" value="b"> Bola basket</label>
+                            <label><input type="radio" name="q6" value="c"> Mobil balap</label>
+                            <label><input type="radio" name="q6" value="d"> Rumah</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 7 -->
+                    <div class="question">
+                        <h3>7. Dalam dunia digital, algoritma digunakan pada...</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q7" value="a"> Game komputer</label>
+                            <label><input type="radio" name="q7" value="b"> Rekomendasi video YouTube</label>
+                            <label><input type="radio" name="q7" value="c"> Robot pembersih lantai</label>
+                            <label><input type="radio" name="q7" value="d"> Semua jawaban benar</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 8 -->
+                    <div class="question">
+                        <h3>8. Algoritma yang baik harus memiliki akhir. Apa maksudnya?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q8" value="a"> Langkah-langkahnya tidak selesai-selesai</label>
+                            <label><input type="radio" name="q8" value="b"> Langkah-langkahnya harus berakhir/selesai, tidak berputar selamanya</label>
+                            <label><input type="radio" name="q8" value="c"> Algoritma berhenti di tengah jalan</label>
+                            <label><input type="radio" name="q8" value="d"> Algoritma tidak boleh terlalu panjang</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 9 -->
+                    <div class="question">
+                        <h3>9. Kenapa komputer membutuhkan algoritma yang sangat jelas?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q9" value="a"> Karena komputer malas</label>
+                            <label><input type="radio" name="q9" value="b"> Karena komputer pintar tapi harus diperintah dengan langkah yang detail</label>
+                            <label><input type="radio" name="q9" value="c"> Karena komputer suka membaca</label>
+                            <label><input type="radio" name="q9" value="d"> Karena komputer bisa berpikir sendiri</label>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 10 -->
+                    <div class="question">
+                        <h3>10. Contoh algoritma yang benar untuk menyalakan lampu adalah...</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q10" value="a"> 1. Matikan saklar, 2. Nyalakan saklar</label>
+                            <label><input type="radio" name="q10" value="b"> 1. Cari saklar lampu, 2. Tekan/nyalakan saklar</label>
+                            <label><input type="radio" name="q10" value="c"> 1. Beli lampu baru, 2. Pasang lampu</label>
+                            <label><input type="radio" name="q10" value="d"> 1. Tunggu gelap, 2. Cari saklar</label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="submit-quiz" onclick="checkQuiz()">Periksa Jawaban 🎯</button>
+                </form>
+
+                <div class="result" id="result">
+                    <h3>Hasil Kuis</h3>
+                    <div class="score" id="score"></div>
+                    <p id="feedback"></p>
+                    <button onclick="retryQuiz()">Coba Lagi 🔄</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)">← Sebelumnya</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Selanjutnya →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Bank soal dengan jawaban yang benar
+        const questionBank = [
+            {
+                question: "Apa yang dimaksud dengan algoritma?",
+                options: [
+                    { text: "Bahasa pemrograman komputer", value: "a" },
+                    { text: "Urutan langkah-langkah logis untuk menyelesaikan masalah", value: "b" },
+                    { text: "Aplikasi di smartphone", value: "c" },
+                    { text: "Jenis komputer", value: "d" }
+                ],
+                correct: "b"
+            },
+            {
+                question: "Manakah yang BUKAN ciri-ciri algoritma yang baik?",
+                options: [
+                    { text: "Jelas dan mudah dipahami", value: "a" },
+                    { text: "Langkahnya berurutan", value: "b" },
+                    { text: "Berputar-putar tanpa akhir", value: "c" },
+                    { text: "Logis dan masuk akal", value: "d" }
+                ],
+                correct: "c"
+            },
+            {
+                question: "Algoritma dalam kehidupan sehari-hari dapat ditemukan pada...",
+                options: [
+                    { text: "Resep masakan", value: "a" },
+                    { text: "Cara mencuci tangan", value: "b" },
+                    { text: "Rute ke sekolah", value: "c" },
+                    { text: "Semua jawaban benar", value: "d" }
+                ],
+                correct: "d"
+            },
+            {
+                question: "Dalam membuat susu cokelat, apa yang terjadi jika kita mengaduk sebelum memasukkan bubuk cokelat?",
+                options: [
+                    { text: "Susu cokelat jadi lebih enak", value: "a" },
+                    { text: "Tidak ada masalah", value: "b" },
+                    { text: "Hasilnya berantakan karena urutan langkah salah", value: "c" },
+                    { text: "Susu jadi lebih cepat siap", value: "d" }
+                ],
+                correct: "c"
+            },
+            {
+                question: "Salah satu fungsi algoritma adalah...",
+                options: [
+                    { text: "Membuat pekerjaan lebih rumit", value: "a" },
+                    { text: "Mencegah kesalahan dan bekerja lebih efisien", value: "b" },
+                    { text: "Menambah waktu pengerjaan", value: "c" },
+                    { text: "Membuat bingung", value: "d" }
+                ],
+                correct: "b"
+            },
+            {
+                question: "Algoritma dapat dianalogikan seperti...",
+                options: [
+                    { text: "Resep masakan", value: "a" },
+                    { text: "Bola basket", value: "b" },
+                    { text: "Mobil balap", value: "c" },
+                    { text: "Rumah", value: "d" }
+                ],
+                correct: "a"
+            },
+            {
+                question: "Dalam dunia digital, algoritma digunakan pada...",
+                options: [
+                    { text: "Game komputer", value: "a" },
+                    { text: "Rekomendasi video YouTube", value: "b" },
+                    { text: "Robot pembersih lantai", value: "c" },
+                    { text: "Semua jawaban benar", value: "d" }
+                ],
+                correct: "d"
+            },
+            {
+                question: "Algoritma yang baik harus memiliki akhir. Apa maksudnya?",
+                options: [
+                    { text: "Langkah-langkahnya tidak selesai-selesai", value: "a" },
+                    { text: "Langkah-langkahnya harus berakhir/selesai, tidak berputar selamanya", value: "b" },
+                    { text: "Algoritma berhenti di tengah jalan", value: "c" },
+                    { text: "Algoritma tidak boleh terlalu panjang", value: "d" }
+                ],
+                correct: "b"
+            },
+            {
+                question: "Kenapa komputer membutuhkan algoritma yang sangat jelas?",
+                options: [
+                    { text: "Karena komputer malas", value: "a" },
+                    { text: "Karena komputer pintar tapi harus diperintah dengan langkah yang detail", value: "b" },
+                    { text: "Karena komputer suka membaca", value: "c" },
+                    { text: "Karena komputer bisa berpikir sendiri", value: "d" }
+                ],
+                correct: "b"
+            },
+            {
+                question: "Contoh algoritma yang benar untuk menyalakan lampu adalah...",
+                options: [
+                    { text: "1. Matikan saklar, 2. Nyalakan saklar", value: "a" },
+                    { text: "1. Cari saklar lampu, 2. Tekan/nyalakan saklar", value: "b" },
+                    { text: "1. Beli lampu baru, 2. Pasang lampu", value: "c" },
+                    { text: "1. Tunggu gelap, 2. Cari saklar", value: "d" }
+                ],
+                correct: "b"
+            }
+        ];
+
+        let shuffledQuestions = [];
+        let correctAnswers = {};
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= slides.length) currentSlide = slides.length - 1;
+            if (n < 0) currentSlide = 0;
+            
+            slides[currentSlide].classList.add('active');
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            showSlide(currentSlide);
+        }
+
+        function checkQuiz() {
+            let score = 0;
+            let totalQuestions = 10;
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer && answer.value === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            const percentage = (score / totalQuestions) * 100;
+            const scoreElement = document.getElementById('score');
+            const feedbackElement = document.getElementById('feedback');
+            const resultElement = document.getElementById('result');
+
+            scoreElement.textContent = `${score}/${totalQuestions}`;
+            
+            let feedback = '';
+            if (percentage === 100) {
+                feedback = '🎉 Sempurna! Kamu benar-benar menguasai materi algoritma!';
+            } else if (percentage >= 80) {
+                feedback = '👏 Bagus sekali! Kamu sudah memahami sebagian besar materi!';
+            } else if (percentage >= 60) {
+                feedback = '👍 Lumayan! Coba pelajari lagi materinya ya!';
+            } else {
+                feedback = '💪 Jangan menyerah! Baca ulang materi dan coba lagi!';
+            }
+
+            feedbackElement.textContent = feedback;
+            resultElement.classList.add('show');
+            
+            document.getElementById('quizForm').style.display = 'none';
+        }
+
+        function retryQuiz() {
+            document.getElementById('quizForm').reset();
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('quizForm').style.display = 'block';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
